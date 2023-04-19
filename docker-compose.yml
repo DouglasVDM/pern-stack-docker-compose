@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: douglasvdmerwe/app-image:1.0.0
+    container_name: app-container
+    ports:
+      - 3000:3000  
+
+  backend:
+    image: douglasvdmerwe/api-image:1.0.0
+    container_name: api-container
+    environment:
+      # DATABASE_URL: postgresql://postgres:password@102.65.62.201:5432/testdb
+      # POSTGRES_HOST: postgresql://postgres:password@102.65.62.201:5432/testdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password    
+    ports:
+      - 5001:5001      
+    expose:
+      - 5001
+
+  database:
+    image: postgres:9.6.2-alpine
+    restart: always
+    container_name: db-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    
+    expose:
+      - 5432
+    volumes:
+      - data:/var/lib/postgresql/data
+
+volumes:
+  data:
