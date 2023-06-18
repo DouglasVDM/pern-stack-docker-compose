@@ -11,8 +11,10 @@ const baseURL = 'https://backend-lllc.onrender.com/departments';
 
 function App() {
 	const [departments, setDepartments] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	const getDepartments = async () => {
+		setLoading(true);
 		try {
 			const response = await fetch(
 				baseURL
@@ -20,10 +22,13 @@ function App() {
 			const jsonData = await response.json();
 			console.log('jsonData', jsonData)
 
-			setDepartments(jsonData);      
+			setDepartments(jsonData);
+		        setLoading(false);
+
       
 		} catch (err) {
-      console.error(err.message);      
+		        setLoading(false);
+			console.error(err.message);      
 		}
 	};
   
@@ -37,7 +42,7 @@ function App() {
 		<Fragment>
 			<div className="container">
 				<InputDepartment baseURL={baseURL} departments={departments} setDepartments={setDepartments} />
-				<ListDepartment baseURL={baseURL} departments={departments} setDepartments={setDepartments} />
+		{loading ? <>Loading...</> : <ListDepartment baseURL={baseURL} departments={departments} setDepartments={setDepartments} />}
 			</div>
 		</Fragment>
 	);
