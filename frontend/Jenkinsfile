@@ -9,7 +9,10 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t douglasvdmerwe/dev-app:${BUILD_NUMBER} .'
+        sh '''
+        cd frontend
+        docker build -t douglasvdmerwe/dev-app:${BUILD_NUMBER} .
+        '''
       }
     }
     stage('Login') {
