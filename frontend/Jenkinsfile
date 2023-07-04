@@ -1,43 +1,31 @@
 pipeline {
-    agent { 
-        node {
-            label 'docker-agent-python'
-        }
+  agent any
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker build -t douglasvdmerwe/dev-app:${BUILD_NUMBER} .'
+      }
     }
-    triggers {
-        pollSCM '* * * * *'
+    stage('Login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
     }
-    stages {
-        stage('Build') {
-            steps {
-                echo "Building..."
-                script {
-                    docker.image('node:alpine').inside {
-                        sh 'npm install'
-                        sh 'npm run build'
-                        sh 'docker build -t my-react-app .'
-                        sh 'docker tag my-react-app douglasvdmerwe/dev-app:${BUILD_NUMBER}'
-                        sh 'docker push douglasvdmerwe/dev-app:${BUILD_NUMBER}'
-                    }
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                echo "Testing..."
-                sh '''
-                npm test
-                '''
-            }
-        }
-        stage('Deliver') {
-            steps {
-                echo 'Deliver...'
-                sh '''
-                echo "doing delivery stuff..."
-                # Add steps here to deploy or deliver your React app
-                '''
-            }
-        }
+    stage('Push') {
+      steps {
+        sh 'docker push douglasvdmerwe/dev-app:${BUILD_NUMBER}'
+      }
     }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
 }
