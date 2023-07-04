@@ -1,0 +1,43 @@
+pipeline {
+    agent { 
+        node {
+            label 'docker-agent-python'
+        }
+    }
+    triggers {
+        pollSCM '* * * * *'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building..."
+                script {
+                    docker.image('node:alpine').inside {
+                        sh 'npm install'
+                        sh 'npm run build'
+                        sh 'docker build -t my-react-app .'
+                        sh 'docker tag my-react-app douglasvdmerwe/dev-app:${BUILD_NUMBER}'
+                        sh 'docker push douglasvdmerwe/dev-app:${BUILD_NUMBER}'
+                    }
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "Testing..."
+                sh '''
+                npm test
+                '''
+            }
+        }
+        stage('Deliver') {
+            steps {
+                echo 'Deliver...'
+                sh '''
+                echo "doing delivery stuff..."
+                # Add steps here to deploy or deliver your React app
+                '''
+            }
+        }
+    }
+}
