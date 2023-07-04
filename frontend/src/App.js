@@ -42,7 +42,7 @@ function App() {
 		<Fragment>
 			<div className="container">
 				<InputDepartment baseURL={baseURL} departments={departments} setDepartments={setDepartments} />
-		{loading ? <>Loading...</> : <ListDepartment baseURL={baseURL} departments={departments} setDepartments={setDepartments} />}
+		{loading ? <>Loading...may need a page refresh or two...</> : <ListDepartment baseURL={baseURL} departments={departments} setDepartments={setDepartments} />}
 			</div>
 		</Fragment>
 	);
