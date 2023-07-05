@@ -15,20 +15,17 @@ pipeline {
         '''
       }
     }
-    stage('Login') {
-      steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-      }
-    }
     stage('Push') {
       steps {
-        sh 'docker push douglasvdmerwe/dev-app:${BUILD_NUMBER}'
+        withDockerRegistry([credentialsId:"dockerhub", url:'']){
+        sh 'docker push douglasvdmerwe/dev-app:""${BUILD_NUMBER}""
+        '
+        }
       }
     }
-  }
   post {
     always {
       sh 'docker logout'
     }
   }
-}
+  }
