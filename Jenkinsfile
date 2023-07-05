@@ -24,12 +24,5 @@ pipeline {
         }
       }
     }
-    stage('Post') {
-      post {
-        always {
-          sh 'docker logout'
-        }
-      }
-    }
   }
 }
