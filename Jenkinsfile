@@ -3,9 +3,9 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-  }
+  // environment {
+  //   DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+  // }
   stages {
     stage('Build') {
       steps {
@@ -17,16 +17,17 @@ pipeline {
     }
     stage('Push') {
       steps {
-        withDockerRegistry([credentialsId:"dockerhub", url:""]){
-        sh 'docker push douglasvdmerwe/dev-app:${BUILD_NUMBER}
-        '
+        withDockerRegistry([credentialsId:'dockerhub', url:'']) {
+          sh '''
+        docker push douglasvdmerwe/dev-app:${BUILD_NUMBER}
+        '''
         }
       }
     }
-  post {
-    always {
-      sh 'docker logout'
+    post {
+      always {
+        sh 'docker logout'
+      }
     }
   }
-  }
-  }
+}
