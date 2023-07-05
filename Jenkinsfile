@@ -17,7 +17,7 @@ pipeline {
     }
     stage('Push') {
       steps {
-        withDockerRegistry([credentialsId:"dockerhub", url:'']){
+        withDockerRegistry([credentialsId:"dockerhub", url:""]){
         sh 'docker push douglasvdmerwe/dev-app:${BUILD_NUMBER}
         '
         }
@@ -27,5 +27,6 @@ pipeline {
     always {
       sh 'docker logout'
     }
+  }
   }
   }
