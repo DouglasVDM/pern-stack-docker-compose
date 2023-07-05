@@ -18,7 +18,7 @@ pipeline {
     stage('Push') {
       steps {
         withDockerRegistry([credentialsId:"dockerhub", url:'']){
-        sh 'docker push douglasvdmerwe/dev-app:""${BUILD_NUMBER}""
+        sh 'docker push douglasvdmerwe/dev-app:${BUILD_NUMBER}
         '
         }
       }
