@@ -30,7 +30,7 @@ pipeline {
 
                 // Tag the Docker image
                 script {
-                    docker.image('<your-docker-image-name>').withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    docker.image('douglasvdmerwe/dev-app:${BUILD_NUMBER}').withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                         docker.image('douglasvdmerwe/dev-app:${BUILD_NUMBER}').push()
                     }
                 }
