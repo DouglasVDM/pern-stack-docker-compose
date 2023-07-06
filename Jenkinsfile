@@ -2,7 +2,6 @@ pipeline {
 environment {
 registry = "douglasvdmerwe/dev-app-image"
 registryCredential = 'dockerhub'
-dockerImage = ''
 }
 agent any
 stages {
