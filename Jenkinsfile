@@ -10,9 +10,9 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'Running docker build -t douglasvdmerwe/dev-app-image:${env.BUILD_ID} .'
+                echo "Running docker build -t douglasvdmerwe/dev-app-image:${env.BUILD_ID} ."
                 dir('frontend') {
-                    sh 'docker build -t douglasvdmerwe/dev-app-image:${env.BUILD_ID} .'
+                    sh "docker build -t douglasvdmerwe/dev-app-image:${env.BUILD_ID} ."
                 }
             }
         }
