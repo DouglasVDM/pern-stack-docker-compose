@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:dind'
+            args '--privileged'
+        }
+    }
 
     stages {
         stage('Init') {
@@ -11,9 +16,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Running docker build -t douglasvdmerwe/dev-app-image:${env.BUILD_ID} ."
-                dir('frontend') {
-                    sh "docker build -t douglasvdmerwe/dev-app-image:${env.BUILD_ID} ."
-                }
+                sh "docker build -t douglasvdmerwe/dev-app-image:${env.BUILD_ID} ."
             }
         }
         stage('Test') {
