@@ -23,12 +23,7 @@ pipeline {
                 echo 'Running pytest..'
             }
         }
-        stage('Build') {
-            steps {
-                echo 'Building..'
-                echo 'Running docker build -t sntshk/cotu .'
-            }
-        }
+}
         stage('Publish') {
             steps {
                 echo 'Publishing..'
