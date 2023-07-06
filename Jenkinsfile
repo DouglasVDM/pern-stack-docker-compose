@@ -1,35 +1,36 @@
 pipeline {
-environment {
-registry = "douglasvdmerwe/dev-app-image"
-registryCredential = 'dockerhub'
-}
-agent any
-stages {
-stage('Cloning our Git') {
-steps {
-git 'https://github.com/DouglasVDM/pern-stack-docker-compose.git'
-}
-}
-stage('Building our image') {
-steps{
-script {
-dockerImage = docker.build registry + ":$BUILD_NUMBER"
-}
-}
-}
-stage('Deploy our image') {
-steps{
-script {
-docker.withRegistry( '', registryCredential ) {
-dockerImage.push()
-}
-}
-}
-}
-stage('Cleaning up') {
-steps{
-sh "docker rmi $registry:$BUILD_NUMBER"
-}
-}
-}
+    agent any
+
+    stages {
+        stage('Init') {
+            steps {
+                echo 'Initializing..'
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                echo 'Running pytest..'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building..'
+                echo 'Running docker build -t sntshk/cotu .'
+            }
+        }
+        stage('Publish') {
+            steps {
+                echo 'Publishing..'
+                echo 'Running docker push..'
+            }
+        }
+        stage('Cleanup') {
+            steps {
+                echo 'Cleaning..'
+                echo 'Running docker rmi..'
+            }
+        }
+    }
 }
