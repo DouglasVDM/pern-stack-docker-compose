@@ -18,10 +18,10 @@ jobs:
       - name: Set up environment variables
         run: |
           if [[ -n $(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} -- frontend/) ]]; then
-            echo "IMAGE_TAG_FE=douglasvdmerwe/dev-app-image:$(date +%s)" >> $GITHUB_ENV
+            echo "IMAGE_TAG_FE=douglasvdmerwe/dev-app-image:${{ github.sha }}" >> $GITHUB_ENV
           fi
           if [[ -n $(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} -- backend/) ]]; then
-            echo "IMAGE_TAG_BE=douglasvdmerwe/dev-api-image:$(date +%s)" >> $GITHUB_ENV
+            echo "IMAGE_TAG_BE=douglasvdmerwe/dev-api-image:${{ github.sha }}" >> $GITHUB_ENV
           fi
 
       - name: Build the Docker image FE
