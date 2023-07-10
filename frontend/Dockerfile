@@ -1,4 +1,4 @@
-# Fetching the latest node image on alpine linux
+# Fetching the latest node image on alpine linux.
 FROM node:alpine AS development
 
 # Declaring env
