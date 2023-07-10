@@ -1,13 +1,16 @@
 name: Docker Image CI
 
-on:
+on:  
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**' # Only trigger for changes in the frontend directory
+      - 'backend/**'  # Only trigger for changes in the backend directory
   pull_request:
     branches:
       - main
-
+      
 jobs:
   build:
     runs-on: ubuntu-latest
