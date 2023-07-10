@@ -2,36 +2,35 @@ version: '3.8'
 
 services:
   frontend:
-    image: douglasvdmerwe/app-image:1.0.0
+    image: douglasvdmerwe/dev-app-image:${{ env.IMAGE_TAG_FE }}
     container_name: app-container
     ports:
-      - 3000:3000  
+      - 3000:3000
+    restart: unless-stopped  # Automatically restart the container unless stopped intentionally
+    environment:
+      - NODE_ENV=production  # Set the Node.js environment to production
 
   backend:
-    image: douglasvdmerwe/api-image:1.0.0
+    image: douglasvdmerwe/dev-api-image:${{ env.IMAGE_TAG_BE }}
     container_name: api-container
-    environment:
-      # DATABASE_URL: postgresql://postgres:password@102.65.62.201:5432/testdb
-      # POSTGRES_HOST: postgresql://postgres:password@102.65.62.201:5432/testdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password    
     ports:
-      - 5001:5001      
-    expose:
-      - 5001
+      - 5001:5001
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+    depends_on:
+      - database  # Wait for the database service to be ready before starting the backend
 
   database:
-    image: postgres:9.6.2-alpine
-    restart: always
+    image: postgres:12.8-alpine  # Upgrade to a newer version of PostgreSQL
+    restart: unless-stopped
     container_name: db-container
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
     ports:
       - 5432:5432
-    
-    expose:
-      - 5432
     volumes:
       - data:/var/lib/postgresql/data
 
