@@ -20,24 +20,14 @@ jobs:
 
       - name: Set up environment variables
         run: |
-          if [[ -n $(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} -- frontend/) ]]; then
             echo "IMAGE_TAG_FE=douglasvdmerwe/dev-app-image:${{ github.sha }}" >> $GITHUB_ENV
-          fi
-          if [[ -n $(git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} -- backend/) ]]; then
             echo "IMAGE_TAG_BE=douglasvdmerwe/dev-api-image:${{ github.sha }}" >> $GITHUB_ENV
-          fi
 
       - name: Build the Docker image FE
-        run: |
-          if [[ -n ${{ env.IMAGE_TAG_FE }} ]]; then
-            docker build ./frontend --file frontend/Dockerfile --tag ${{ env.IMAGE_TAG_FE }}
-          fi
+        run: docker build ./frontend --file frontend/Dockerfile --tag ${{ env.IMAGE_TAG_FE }}
 
       - name: Build the Docker image BE
-        run: |
-          if [[ -n ${{ env.IMAGE_TAG_BE }} ]]; then
-            docker build ./backend --file backend/Dockerfile --tag ${{ env.IMAGE_TAG_BE }}
-          fi
+        run: docker build ./backend --file backend/Dockerfile --tag ${{ env.IMAGE_TAG_BE }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -46,13 +36,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push to Docker Hub FE
-        run: |
-          if [[ -n ${{ env.IMAGE_TAG_FE }} ]]; then
-            docker push ${{ env.IMAGE_TAG_FE }}
-          fi
+        run: docker push ${{ env.IMAGE_TAG_FE }}
 
       - name: Push to Docker Hub BE
-        run: |
-          if [[ -n ${{ env.IMAGE_TAG_BE }} ]]; then
-            docker push ${{ env.IMAGE_TAG_BE }}
-          fi
+        run: docker push ${{ env.IMAGE_TAG_BE }}
