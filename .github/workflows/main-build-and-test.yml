@@ -1,0 +1,32 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**" # Only trigger for changes in the frontend directory
+      - "backend/**" # Only trigger for changes in the backend directory
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up environment variables
+        run: |
+          echo "IMAGE_TAG_FE=douglasvdmerwe/dev-app-image:${{ github.sha }}" >> $GITHUB_ENV
+          echo "IMAGE_TAG_BE=douglasvdmerwe/dev-api-image:${{ github.sha }}" >> $GITHUB_ENV
+
+      - name: Build and Push Docker Images
+        run: |
+          docker build ./ --file Dockerfile --tag ${{ env.IMAGE_TAG_FE }} --target build
+          docker build ./ --file Dockerfile --tag ${{ env.IMAGE_TAG_BE }} --target build
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker push ${{ env.IMAGE_TAG_FE }}
+          docker push ${{ env.IMAGE_TAG_BE }}
