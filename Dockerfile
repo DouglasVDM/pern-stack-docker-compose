@@ -1,29 +1,35 @@
-
-# Stage1: Frontend Build
-FROM node:14-slim AS frontend-build
+# Stage1: Frontend and Backend Build
+FROM node:14 AS build
 WORKDIR /usr/src
+
+# Copying both frontend and backend files
 COPY frontend/ ./frontend/
+COPY backend/ ./backend/
+
+# Building frontend
 RUN cd frontend && npm install && npm run build
 
-# Stage2: Backend Build
-FROM node:14-slim AS backend-build
-WORKDIR /usr/src
-COPY backend/ ./backend/
-RUN npm i
-# Adding bash because Alpine base image doesn't have bash pre-installed
-RUN apt update && apt add bash
-RUN cd backend && npm install && ENVIRONMENT=production npm run build
-RUN ls
+# Building backend
+RUN cd backend && npm ci && ENVIRONMENT=production npm run build
 
-# Stage3: Packagign the app
-FROM node:14-slim
-WORKDIR /root/
-RUN npm install pg
-COPY --from=frontend-build /usr/src/frontend/build ./frontend/build
-COPY --from=backend-build /usr/src/backend/dist .
-# COPY backend/swagger.css .
-RUN ls
+# Stage2: Nginx to serve frontend and proxy to backend
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
 
-EXPOSE 3080
+# Remove default Nginx static files
+RUN rm -rf ./*
 
-CMD ["node", "backend.bundle.js"]
+# Copy the built frontend files from the previous stage
+COPY --from=build /usr/src/frontend/build .
+
+# Copy Nginx configuration to serve the frontend and proxy to backend
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose the desired frontend port (3000)
+EXPOSE 3000
+
+# Expose the desired backend port (5001)
+EXPOSE 5001
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
