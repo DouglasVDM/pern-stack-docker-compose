@@ -10,7 +10,7 @@ COPY backend/ ./backend/
 RUN cd frontend && npm install && npm run build
 
 # Building backend
-RUN cd backend && npm ci && ENVIRONMENT=production npm run build
+RUN cd backend && npm i && ENVIRONMENT=production npm run build
 
 # Stage2: Nginx to serve frontend and proxy to backend
 FROM nginx:alpine
