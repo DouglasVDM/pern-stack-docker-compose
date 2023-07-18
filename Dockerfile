@@ -26,7 +26,7 @@ COPY --from=build /usr/src/frontend/build .
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the desired frontend port (3000)
-EXPOSE 3000
+EXPOSE 3000 
 
 # Expose the desired backend port (5001)
 EXPOSE 5001
