@@ -1,3 +1,10 @@
+# Table of Contents
+
+1. [Docker Compose Configuration for Dev Environment](#docker-compose-configuration-for-dev-environment)
+2. [Frontend Service](#frontend-service)
+2. [Backend Service](#backend-service)
+
+
 # Docker Compose Configuration for Dev Environment
 
 This repository contains a Docker Compose configuration file (`docker-compose.yml`) to set up a development environment with three services: `frontend`, `backend`, and `database`.
