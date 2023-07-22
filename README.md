@@ -1,15 +1,22 @@
 # Table of Contents
 
-1. [Docker Compose Configuration for Dev Environment](#docker-compose-configuration-for-dev-environment)   
+1. [Deployed App](#deployed-app)
+2. [Docker Compose Configuration for Dev Environment](#docker-compose-configuration-for-dev-environment)   
     a. [Frontend Service](#frontend-service)   
     b. [Backend Service](#backend-service)   
     c. [Database Service](#database-service)   
-2. [Frontend Summary](#frontend-summary)
-3. [Backend Summary](#backend-summary)
-4. [Dockerfile](#dockerfile)
-5. [Docker Image CI Workflow](#docker-image-ci-workflow)   
-6. [Jenkins Pipeline Configuration](#jenkins-pipeline-configuration)
+3. [Frontend Summary](#frontend-summary)
+4. [Backend Summary](#backend-summary)
+5. [Dockerfile](#dockerfile)
+6. [Docker Image CI Workflow](#docker-image-ci-workflow)   
+7. [Jenkins Pipeline Configuration](#jenkins-pipeline-configuration)
 
+# Deployed App
+
+### [Pern Stack Docker Compose App](https://tinyurl.com/pern-stack-docker-compose)
+```
+Due to using a free hosting service, loading the app may take a few minutes...
+```
 
 # Docker Compose Configuration for Dev Environment
 
