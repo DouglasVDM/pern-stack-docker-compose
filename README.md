@@ -7,7 +7,8 @@
 2. [Frontend Summary](#frontend-summary)
 3. [Backend Summary](#backend-summary)
 4. [Dockerfile](#dockerfile)
-5. [Docker Image CI Workflow](#docker-image-ci-workflow) 
+5. [Docker Image CI Workflow](#docker-image-ci-workflow)   
+6. [Jenkins Pipeline Configuration](#jenkins-pipeline-configuration)
 
 
 # Docker Compose Configuration for Dev Environment
@@ -299,4 +300,31 @@ To use this workflow, create a YAML file (e.g., `.github/workflows/docker-image.
 
 For more information on GitHub Actions and workflows, refer to the [GitHub Actions documentation](https://docs.github.com/en/actions).
 
+## Jenkins Pipeline Configuration
+
+This repository contains a Jenkins pipeline configuration written in a declarative syntax. The pipeline defines a series of stages to automate the build, test, and publishing process for a Docker image.
+
+### Pipeline Stages
+
+1. **Init Stage**: This stage is responsible for initializing the pipeline. It echoes a message to indicate the pipeline's start and displays information about the current build, such as `BUILD_ID` and `JENKINS_URL`.
+
+2. **Build Stage**: This stage builds a Docker image for the application. It echoes the Docker build command that is being executed and runs the command using the Jenkins `sh` step. The image is tagged with `douglasvdmerwe/dev-app-image` and the `BUILD_ID`, ensuring a unique image for each build.
+
+3. **Test Stage**: In this stage, testing of the application takes place. The pipeline echoes a message indicating the start of testing and then runs the required test commands. In this case, the pipeline simply displays a message "Testing.." and "Running pytest..", but in a real-world scenario, this stage would include actual tests for the application.
+
+4. **Publish Stage**: The publish stage handles the publication of the Docker image to a container registry or a Docker repository. In this case, the pipeline echoes a message indicating the start of the publishing process and runs the Docker push command. However, the actual push command is not provided in the snippet.
+
+5. **Cleanup Stage**: The cleanup stage is responsible for cleaning up the environment after the build and publish process. It echoes a message to indicate the start of cleanup and runs the Docker rmi (remove image) command. Just like the publish stage, the actual rmi command is not given in the snippet.
+
+### Agent Configuration
+
+The Jenkins pipeline is set up to use a Docker agent with the image 'docker:dind', which stands for Docker-in-Docker. The `args '--privileged'` argument is included to enable privileged access to the Docker daemon, which is necessary for running Docker commands within the Docker agent.
+
+Please note that the provided code snippet is just a partial representation of a Jenkins pipeline configuration. The full pipeline definition may include additional configuration details, environment variables, and actual test and publish commands as per the project requirements.
+
+> The Jenkins pipeline in this repository is designed to automate the build, test, and publish process for a Docker image.   
+> The pipeline consists of several stages: `Init`, `Build`, `Test`, `Publish`, and `Cleanup`.   
+> Each stage performs specific tasks, such as initialization, building the Docker image, running tests, and publishing the image to a container registry.   
+> The pipeline uses a Docker agent with the image 'docker:dind', granting Docker-in-Docker access, and enabling Docker commands within the pipeline.   
+> The pipeline provides an automated and reliable approach for managing the development, testing, and deployment of Dockerized applications.   
 
