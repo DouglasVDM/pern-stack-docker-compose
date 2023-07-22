@@ -2,11 +2,13 @@
 
 # Backend
 
-This code provides a basic API server with CRUD functionality for managing "departments" in a database. The server can handle requests to create, read, update, and delete department records, making it suitable for building a simple web application or backend service. 
+This code is for creating a simple API server using the Express framework in Node.js. The server allows you to perform CRUD operations (Create, Read, Update, Delete) on a "departments" table in a database.
+
+This code creates a basic API server that allows you to interact with the "departments" table by creating, reading, updating, and deleting department records through HTTP requests.
 
 # Frontend
 
-
+This is a basic React App that fetches department data from the backend server when the application loads and renders the InputDepartment and ListDepartment components along with the loading message if necessary. The baseURL determines the backend endpoint to communicate with, and the component uses the useState and useEffect hooks to manage the state and perform side effects, respectively.
 
 # Dockerfile
 
