@@ -1,6 +1,71 @@
 # pern-stack-docker-compose
 
+---
+
+# Dockerfile
+
+## Stage 1: Frontend and Backend Build
+```go
+FROM node:14 AS build
+WORKDIR /usr/src
+```
+
+### Copying both frontend and backend files
+```go
+COPY frontend/ ./frontend/
+COPY backend/ ./backend/
+```
+
+### Building frontend
+```go
+RUN cd frontend && npm install && npm run build
+```
+
+### Building backend
+```go
+RUN cd backend && npm i && ENVIRONMENT=production npm run build
+```
+
+## Stage 2: Nginx to serve frontend and proxy to backend
+```go
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+```
+
+### Remove default Nginx static files
+```go
+RUN rm -rf ./*
+```
+
+### Copy the built frontend files from the previous stage
+```go
+COPY --from=build /usr/src/frontend/build .
+```
+
+### Copy Nginx configuration to serve the frontend and proxy to backend
+```go
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+```
+
+### Expose the desired frontend port (3000)
+```go
+EXPOSE 3000
+```
+
+### Expose the desired backend port (5001)
+```go
+EXPOSE 5001
+```
+### Start Nginx
+```go
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+---
+
 [![Docker Image CI](https://github.com/DouglasVDM/pern-stack-docker-compose/actions/workflows/main-build-and-test.yml/badge.svg)](https://github.com/DouglasVDM/pern-stack-docker-compose/actions/workflows/main-build-and-test.yml)
+
+---
 
 # Docker Image CI Workflow
 
