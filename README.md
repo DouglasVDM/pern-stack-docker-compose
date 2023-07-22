@@ -1,5 +1,3 @@
-# pern-stack-docker-compose
-
 # Docker Compose Configuration for Dev Environment
 
 This repository contains a Docker Compose configuration file (`docker-compose.yml`) to set up a development environment with three services: `frontend`, `backend`, and `database`.
