@@ -1,5 +1,75 @@
 # pern-stack-docker-compose
 
+# Docker Compose Configuration for Dev Environment
+
+This repository contains a Docker Compose configuration file (`docker-compose.yml`) to set up a development environment with three services: `frontend`, `backend`, and `database`.
+
+## Frontend Service
+
+- Image: The frontend service uses the image `douglasvdmerwe/dev-app-image` with a version specified by the environment variable `IMAGE_TAG_FE`.
+- Container Name: The container for the frontend service is named `app-container`.
+- Ports: The service is mapped to listen on port `3000` of the host machine, forwarding requests to port `3000` inside the container.
+- Restart Policy: The container will automatically restart unless stopped intentionally.
+- Environment Variables: The `NODE_ENV` environment variable is set to `production` for the Node.js environment.
+
+## Backend Service
+
+- Image: The backend service uses the image `douglasvdmerwe/dev-api-image` with a version specified by the environment variable `IMAGE_TAG_BE`.
+- Container Name: The container for the backend service is named `api-container`.
+- Ports: The service is mapped to listen on port `5001` of the host machine, forwarding requests to port `5001` inside the container.
+- Restart Policy: The container will automatically restart unless stopped intentionally.
+- Environment Variables: The `POSTGRES_USER` and `POSTGRES_PASSWORD` environment variables are set to secrets defined in the repository.
+- Depends On: The backend service depends on the `database` service, so it will wait for the database to be ready before starting.
+
+## Database Service
+
+- Image: The database service uses the official PostgreSQL image with version `12.8-alpine`.
+- Container Name: The container for the database service is named `db-container`.
+- Ports: The service is mapped to listen on port `5432` of the host machine, forwarding requests to port `5432` inside the container.
+- Restart Policy: The container will automatically restart unless stopped intentionally.
+- Environment Variables: The `POSTGRES_USER` and `POSTGRES_PASSWORD` environment variables are set to values specified in the repository.
+- Volumes: A volume named `data` is used to persist the database data in the `/var/lib/postgresql/data` directory.
+
+**Note**: The Docker Compose file is designed to set up a development environment for the frontend and backend applications, along with a PostgreSQL database. The environment variables and secrets are used to configure the services securely and efficiently.
+
+> The code above specifies a Docker Compose configuration for a development environment.   
+> The `docker-compose.yml` file sets up three services: `frontend`, `backend`, and `database`, each running in its own container.   
+> The `frontend` service listens on port `3000`, the `backend` service listens on port `5001`, and the `database` service listens on port `5432`.   
+> The services are set to automatically restart unless intentionally stopped.   
+> The `backend` service depends on the `database` service, ensuring that the database is ready before starting the backend.   
+> Environment variables are used to configure the services, including sensitive information like passwords, which are stored as secrets in the repository.   
+> The `data` volume is used to persist the database data.
+> This configuration allows developers to work on the frontend and backend components with a pre-configured and isolated development environment.   
+
+Here's the Docker Compose configuration represented as a Mermaid diagram:
+
+```mermaid
+graph LR
+    A[frontend]
+    B[backend]
+    C[database]
+
+    A -->|Port 3000| A
+    B -->|Port 5001| B
+    C -->|Port 5432| C
+
+    B -->|Depends On| C
+
+    subgraph Docker Container
+        A
+        B
+        C
+    end
+
+    style A fill:#FFD700
+    style B fill:#FFA07A
+    style C fill:#98FB98
+```
+
+The diagram shows three services represented as nodes: frontend, backend, and database. The arrows indicate the ports that each service listens on. The backend service depends on the database service, ensuring that the database is ready before the backend starts. Each service runs in its Docker container, isolated from the host system. The colors represent different service categories for better visualization.
+
+In simple terms, this code defines how different parts of a multi-container application should be set up and work together. The frontend service is responsible for the user interface, the backend service handles the application logic and communication with the database, and the database service stores the data used by the application. The code ensures that the containers for each service run on specific ports and have access to required environment variables and dependencies for smooth operation.
+
 ## Frontend Summary:
 The frontend code is like the "face" of a website or app that users interact with. It's built using a library called React, which helps make things look nice and respond to what users do. The app has two main parts:
 
@@ -138,10 +208,6 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ---
 
-[![Docker Image CI](https://github.com/DouglasVDM/pern-stack-docker-compose/actions/workflows/main-build-and-test.yml/badge.svg)](https://github.com/DouglasVDM/pern-stack-docker-compose/actions/workflows/main-build-and-test.yml)
-
----
-
 # Docker Image CI Workflow
 
 This GitHub Actions workflow builds and pushes Docker images for the frontend and backend of the application to Docker Hub. The build process uses a multi-stage Dockerfile to ensure a clean and efficient build for the production-ready images.
@@ -222,4 +288,5 @@ Once the images are successfully pushed to Docker Hub, the workflow is complete.
 To use this workflow, create a YAML file (e.g., `.github/workflows/docker-image.yml`) in your repository with the content shown above. Make sure to replace `douglasvdmerwe` with your Docker Hub username and set up the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` secrets in your GitHub repository.
 
 For more information on GitHub Actions and workflows, refer to the [GitHub Actions documentation](https://docs.github.com/en/actions).
+
 
