@@ -1,14 +1,36 @@
 # pern-stack-docker-compose
 
+## Frontend Summary:
+The frontend code is like the "face" of a website or app that users interact with. It's built using a library called React, which helps make things look nice and respond to what users do. The app has two main parts:
+
+Input Box: This is where users can type and add new department names. When they type something and click a button, the app sends the new department name to the backend server to save it.
+
+List of Departments: This part shows all the department names that are already saved. It gets the list from the backend server and displays it on the screen.
+
+When you open the app, it will show a list of departments that are already saved. If you want to add a new department, type its name in the box and click the button to save it. The list will automatically update to show the new department you added.
+
+## Backend Summary:
+The backend code is like the "brain" behind the app. It's responsible for storing and handling data. The code is written in Node.js, a programming language for servers. The backend has a few important tasks:
+
+Storing Departments: When the frontend app sends a new department name, the backend saves it in a database. This way, the app can remember the departments even when you close it.
+
+Fetching Departments: When the frontend app wants to show the list of departments, it asks the backend for the data. The backend gets the list from the database and sends it back to the frontend, which then displays it.
+
+Updating and Deleting Departments: If you want to change a department's name or remove it, the frontend app asks the backend to do that. The backend finds the department you want to update or delete in the database and makes the necessary changes.
+
+In simple terms, the frontend makes the app look nice and lets you interact with it, while the backend takes care of saving, fetching, and managing the data behind the scenes. Together, they work as a team to provide a smooth and functional user experience.
+
 # Backend
 
 This code is for creating a simple API server using the Express framework in Node.js. The server allows you to perform CRUD operations (Create, Read, Update, Delete) on a "departments" table in a database.
 
-This code creates a basic API server that allows you to interact with the "departments" table by creating, reading, updating, and deleting department records through HTTP requests.
+Overall, this is a basic API server that allows you to interact with the "departments" table by creating, reading, updating, and deleting department records through HTTP requests.
 
 # Frontend
 
-This is a basic React App that fetches department data from the backend server when the application loads and renders the InputDepartment and ListDepartment components along with the loading message if necessary. The baseURL determines the backend endpoint to communicate with, and the component uses the useState and useEffect hooks to manage the state and perform side effects, respectively.
+This code represents a web application built using React, a popular JavaScript library for creating user interfaces.
+
+Overall, this React app communicates with a backend server to fetch and display a list of departments. The InputDepartment component handles adding new departments, and the ListDepartments component displays the current departments. It demonstrates how React components, hooks, and state management work together to build dynamic user interfaces.
 
 # Dockerfile
 
