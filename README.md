@@ -4,6 +4,51 @@
 
 # Dockerfile
 
+## Docker Build Stages and Layers
+The Dockerfile defines a multi-stage build, which is a recommended best practice for optimizing the final image size and improving security.
+
+The Mermaid diagram below visually represents the Docker build stages and the resulting image layers:
+
+```mermaid
+graph TD
+  A[Frontend and Backend Build] --> B[nginx:alpine]
+  B --> C[Final Image]
+  A --> |Stage 1| D[node:14]
+  D --> E[Build]
+  E --> F[Build]
+  F --> C
+```
+
+## Explanation
+The Dockerfile consists of two main stages:
+
+### Stage 1 (Frontend and Backend Build):
+
+It uses the official node:14 image as the base image and sets the working directory to /usr/src.
+Copies the frontend and backend files into the container.
+Builds the frontend using npm install and npm run build.
+Builds the backend using npm i and npm run build with the ENVIRONMENT set to production.
+The resulting build artifacts (frontend and backend) are available in this stage.
+
+### Stage 2 (Nginx to serve frontend and proxy to backend):
+
+It uses the official nginx:alpine image as the base image and sets the working directory to /usr/share/nginx/html.
+Removes the default Nginx static files to ensure a clean slate.
+Copies the built frontend files from the previous stage (build directory) to the Nginx container.
+Copies the Nginx configuration file (nginx.conf) to serve the frontend and proxy API requests to the backend.
+Exposes port 3000, which is the desired frontend port.
+Exposes port 5001, which is the desired backend port.
+The final image now contains only the production-ready frontend files and the Nginx configuration.
+The use of multi-stage builds helps to keep the final image small and secure. The build stage (node:14) is separate from the production stage (nginx:alpine), and only necessary artifacts are copied to the final image.
+
+The exposed ports (3000 and 5001) provide information to users about which ports are used by the application.
+
+The CMD ["nginx", "-g", "daemon off;"] command is executed when the container is started. It runs Nginx in the foreground to serve the frontend and proxy API requests to the backend.
+
+
+
+# Dockerfile
+
 ## Stage 1: Frontend and Backend Build
 ```go
 FROM node:14 AS build
