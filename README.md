@@ -1,6 +1,12 @@
 # pern-stack-docker-compose
 
----
+# Backend
+
+This code provides a basic API server with CRUD functionality for managing "departments" in a database. The server can handle requests to create, read, update, and delete department records, making it suitable for building a simple web application or backend service. 
+
+# Frontend
+
+
 
 # Dockerfile
 
