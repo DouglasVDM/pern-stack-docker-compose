@@ -1,8 +1,13 @@
 # Table of Contents
 
-1. [Docker Compose Configuration for Dev Environment](#docker-compose-configuration-for-dev-environment)
-2. [Frontend Service](#frontend-service)
-2. [Backend Service](#backend-service)
+1. [Docker Compose Configuration for Dev Environment](#docker-compose-configuration-for-dev-environment)   
+    a. [Frontend Service](#frontend-service)   
+    b. [Backend Service](#backend-service)   
+    c. [Database Service](#database-service)   
+2. [Frontend Summary](#frontend-summary)
+3. [Backend Summary](#backend-summary)
+4. [Dockerfile](#dockerfile)
+5. [Docker Image CI Workflow](#docker-image-ci-workflow) 
 
 
 # Docker Compose Configuration for Dev Environment
