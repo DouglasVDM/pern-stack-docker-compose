@@ -4,7 +4,6 @@ import React, { Fragment } from 'react';
 import EditDepartment from './EditDepartment';
 
 const ListDepartments = ({ baseURL, departments, setDepartments, }) => {
-    // console.log('listDept departments', departments)
 
     const deleteDepartment = async (id) => {
         try {
