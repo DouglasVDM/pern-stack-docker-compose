@@ -18,7 +18,6 @@ function App() {
 				baseURL
 			);
 			const jsonData = await response.json();
-			console.log('jsonData', jsonData)
 
 			setDepartments(jsonData);
 		        setLoading(false);
@@ -34,8 +33,6 @@ function App() {
     getDepartments();
 	}, []);
   
-  console.log('appJs departments', departments);
-
 	return (
 		<Fragment>
 			<div className="container">
