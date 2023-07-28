@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 
 const EditDepartment = ({ baseURL, department }) => {
     const [description, setDescription] = useState(department.description);
-    console.log('_id', department.department_id);
 
     // edit description function
     const updateDescription = async (event) => {
