@@ -5,9 +5,7 @@ import './App.css';
 import InputDepartment from './components/InputDepartment';
 import ListDepartment from './components/ListDepartments';
 
-// const baseURL = process.env.NODE_ENV==='production' ? "/departments" : 'https://backend-lllc.onrender.com/departments';
 const baseURL = 'https://backend-lllc.onrender.com/departments';
-
 
 function App() {
 	const [departments, setDepartments] = useState([]);
